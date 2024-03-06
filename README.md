@@ -34,15 +34,20 @@ Version 0.5.3:
 # Screenshots
 
 <div align="center">
-
-![Rise of Spaceships - Lobby](assets/ross-lobby.jpg)
-![Rise of Spaceships - Missions](assets/ross-missions.jpg)
-![Rise of Spaceships - Shipyard](assets/ross-shipyard.jpg)
-![Rise of Spaceships - Factory](assets/ross-factory.jpg)
-![Rise of Spaceships - Lab](assets/ross-lab.jpg)
-![Rise of Spaceships - Shop](assets/ross-shop.jpg)
-![Rise of Spaceships - Battle](assets/ross-battle-1.jpg)
-![Rise of Spaceships - Battle](assets/ross-battle-2.jpg)
-![Rise of Spaceships - Battle](assets/ross-battle-3.jpg)
-
+<p>Lobby</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-lobby.jpg" title="Rise of Spaceships - Lobby" alt="Rise of Spaceships - Lobby"/></p>
+<p>Missions</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-missions.jpg" title="Rise of Spaceships - Missions" alt="Rise of Spaceships - Missions"/></p>
+<p>Shipyard</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-shipyard.jpg" title="Rise of Spaceships - Shipyard" alt="Rise of Spaceships - Shipyard"/></p>
+<p>Factory</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-factory.jpg" title="Rise of Spaceships - Factory" alt="Rise of Spaceships - Factory"/></p>
+<p>Lab</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-lab.jpg" title="Rise of Spaceships - Lab" alt="Rise of Spaceships - Lab"/></p>
+<p>Shop</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-shop.jpg" title="Rise of Spaceships - Shop" alt="Rise of Spaceships - Shop"/></p>
+<p>Battle</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-battle-1.jpg" title="Rise of Spaceships - Battle" alt="Rise of Spaceships - Battle"/></p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-battle-2.jpg" title="Rise of Spaceships - Battle" alt="Rise of Spaceships - Battle"/></p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-battle-3.jpg" title="Rise of Spaceships - Battle" alt="Rise of Spaceships - Battle"/></p>
 </div>
