@@ -1,5 +1,7 @@
 <div align="center">
+
 [![Rise of Spaceships](assets/ross-title.jpg)](https://github.com/ExtendMedia/RoSS-Code)
+
 </div>
 
 # About this game
@@ -32,6 +34,7 @@ Version 0.5.3:
 # Screenshots
 
 <div align="center">
+
 ![Rise of Spaceships - Lobby](assets/ross-lobby.jpg)
 ![Rise of Spaceships - Missions](assets/ross-missions.jpg)
 ![Rise of Spaceships - Shipyard](assets/ross-shipyard.jpg)
@@ -41,4 +44,5 @@ Version 0.5.3:
 ![Rise of Spaceships - Battle](assets/ross-battle-1.jpg)
 ![Rise of Spaceships - Battle](assets/ross-battle-2.jpg)
 ![Rise of Spaceships - Battle](assets/ross-battle-3.jpg)
+
 </div>
