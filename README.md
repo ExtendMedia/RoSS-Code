@@ -2,6 +2,7 @@
 
 [![Rise of Spaceships](assets/ross-title.jpg)](https://github.com/ExtendMedia/RoSS-Code)
 
+</div>
 
 # About this game
 
@@ -9,13 +10,10 @@
 
 # Supported Systems
 
-<p>
 :iphone: Mobile (IV 2024)&nbsp;&nbsp;&nbsp;:computer: PC (TBA)
-</p>
 
 # Technologies 
 
-<p>
 - Scriptable Objects
 - Unity Event System
 - Interfaces
@@ -24,28 +22,32 @@
 - Audio System
 - User Interfaces
 - Addressables
-</p>
 
 # What's new
 
-<p>
 Version 0.5.3:
 - Loading scene added
 - Added a welcome screen with a logo
 - Added new weapon items
 - Added experience increase after losing a battle
-</p>
 
 # Screenshots
 
-![Rise of Spaceships - Lobby](assets/ross-lobby.jpg)
-![Rise of Spaceships - Missions](assets/ross-missions.jpg)
-![Rise of Spaceships - Shipyard](assets/ross-shipyard.jpg)
-![Rise of Spaceships - Factory](assets/ross-factory.jpg)
-![Rise of Spaceships - Lab](assets/ross-lab.jpg)
-![Rise of Spaceships - Shop](assets/ross-shop.jpg)
-![Rise of Spaceships - Battle](assets/ross-battle-1.jpg)
-![Rise of Spaceships - Battle](assets/ross-battle-2.jpg)
-![Rise of Spaceships - Battle](assets/ross-battle-3.jpg)
-
+<div align="center">
+<p>Lobby</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-lobby.jpg" title="Rise of Spaceships - Lobby" alt="Rise of Spaceships - Lobby"/></p>
+<p>Missions</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-missions.jpg" title="Rise of Spaceships - Missions" alt="Rise of Spaceships - Missions"/></p>
+<p>Shipyard</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-shipyard.jpg" title="Rise of Spaceships - Shipyard" alt="Rise of Spaceships - Shipyard"/></p>
+<p>Factory</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-factory.jpg" title="Rise of Spaceships - Factory" alt="Rise of Spaceships - Factory"/></p>
+<p>Lab</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-lab.jpg" title="Rise of Spaceships - Lab" alt="Rise of Spaceships - Lab"/></p>
+<p>Shop</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-shop.jpg" title="Rise of Spaceships - Shop" alt="Rise of Spaceships - Shop"/></p>
+<p>Battle</p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-battle-1.jpg" title="Rise of Spaceships - Battle" alt="Rise of Spaceships - Battle"/></p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-battle-2.jpg" title="Rise of Spaceships - Battle" alt="Rise of Spaceships - Battle"/></p>
+<p><img src="https://github.com/ExtendMedia/RoSS-Code/blob/main/assets/ross-battle-3.jpg" title="Rise of Spaceships - Battle" alt="Rise of Spaceships - Battle"/></p>
 </div>
