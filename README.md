@@ -15,7 +15,7 @@
 
 # Technologies 
 
-<p>
+
 - Scriptable Objects
 - Unity Event System
 - Interfaces
@@ -24,28 +24,28 @@
 - Audio System
 - User Interfaces
 - Addressables
-</p>
+
 
 # What's new
 
-<p>
+
 Version 0.5.3:
 - Loading scene added
 - Added a welcome screen with a logo
 - Added new weapon items
 - Added experience increase after losing a battle
-</p>
+
 
 # Screenshots
 
-![Rise of Spaceships - Lobby](assets/ross-lobby.jpg)
-![Rise of Spaceships - Missions](assets/ross-missions.jpg)
-![Rise of Spaceships - Shipyard](assets/ross-shipyard.jpg)
-![Rise of Spaceships - Factory](assets/ross-factory.jpg)
-![Rise of Spaceships - Lab](assets/ross-lab.jpg)
-![Rise of Spaceships - Shop](assets/ross-shop.jpg)
-![Rise of Spaceships - Battle](assets/ross-battle-1.jpg)
-![Rise of Spaceships - Battle](assets/ross-battle-2.jpg)
-![Rise of Spaceships - Battle](assets/ross-battle-3.jpg)
+<p>![Rise of Spaceships - Lobby](assets/ross-lobby.jpg)</p>
+<p>![Rise of Spaceships - Missions](assets/ross-missions.jpg)</p>
+<p>![Rise of Spaceships - Shipyard](assets/ross-shipyard.jpg)</p>
+<p>![Rise of Spaceships - Factory](assets/ross-factory.jpg)</p>
+<p>![Rise of Spaceships - Lab](assets/ross-lab.jpg)</p>
+<p>![Rise of Spaceships - Shop](assets/ross-shop.jpg)</p>
+<p>![Rise of Spaceships - Battle](assets/ross-battle-1.jpg)</p>
+<p>![Rise of Spaceships - Battle](assets/ross-battle-2.jpg)</p>
+<p>![Rise of Spaceships - Battle](assets/ross-battle-3.jpg)</p>
 
 </div>
