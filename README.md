@@ -26,10 +26,12 @@
 # What's new
 
 Version 0.5.3:
-- Loading scene added
-- Added a welcome screen with a logo
-- Added new weapon items
-- Added experience increase after losing a battle
+- Modification of the appearance of lasers
+- Fixed player collisions with enemy projectiles
+- Fixed target tracking by turrets
+- Added missile launch by enemies
+- Fixed minor bugs
+- Code cleaning
 
 # Screenshots
 
