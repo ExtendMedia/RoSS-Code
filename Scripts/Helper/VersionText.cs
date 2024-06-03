@@ -7,12 +7,15 @@ using UnityEngine;
 /// Shows version number on screen
 /// </summary>
 
-public class VersionText : MonoBehaviour
+namespace RoSS
 {
-    void Start()
+    public class VersionText : MonoBehaviour
     {
-        GetComponent<TMP_Text>().text += Application.version;
+        void Start()
+        {
+            GetComponent<TMP_Text>().text += Application.version;
+        }
+
+
     }
-
-
 }

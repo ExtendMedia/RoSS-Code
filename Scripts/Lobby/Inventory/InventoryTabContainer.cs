@@ -4,38 +4,41 @@ using UnityEngine.EventSystems;
 /// <summary>
 /// Controls an items container for the inventory tabs
 /// </summary>
-public class InventoryTabContainer : MonoBehaviour, IDropHandler
+namespace RoSS
 {
-
-    public void OnDrop(PointerEventData eventData)
+    public class InventoryTabContainer : MonoBehaviour, IDropHandler
     {
-        if (eventData.pointerDrag.TryGetComponent<InventoryItem>(out var inventoryItem))
+
+        public void OnDrop(PointerEventData eventData)
         {
-            if (inventoryItem.TryGetComponent<DragAndDrop>(out var dragableItem))
+            if (eventData.pointerDrag.TryGetComponent<InventoryItem>(out var inventoryItem))
             {
-                if (TryFindTabToDrop(inventoryItem, out var tabToDrop))
+                if (inventoryItem.TryGetComponent<DragAndDrop>(out var dragableItem))
                 {
-                    if (InventorySystem.Instance.ActiveTab != tabToDrop) InventorySystem.Instance.ChangeActiveTab(tabToDrop.Type);
-                    tabToDrop.AddItem(inventoryItem);
+                    if (TryFindTabToDrop(inventoryItem, out var tabToDrop))
+                    {
+                        if (InventorySystem.Instance.ActiveTab != tabToDrop) InventorySystem.Instance.ChangeActiveTab(tabToDrop.Type);
+                        tabToDrop.AddItem(inventoryItem);
+                    }
                 }
             }
+
         }
 
-    }
-
-    bool TryFindTabToDrop(InventoryItem inventoryItem, out InventoryTab inventoryTab)
-    {
-        inventoryTab = null;
-        var inventoryTabContainer = transform.parent;
-        var inventoryTabs = inventoryTabContainer.GetComponentsInChildren<InventoryTab>(true);
-        foreach (var tab in inventoryTabs)
+        bool TryFindTabToDrop(InventoryItem inventoryItem, out InventoryTab inventoryTab)
         {
-            if (tab.Type == inventoryItem.GetItemSOType())
+            inventoryTab = null;
+            var inventoryTabContainer = transform.parent;
+            var inventoryTabs = inventoryTabContainer.GetComponentsInChildren<InventoryTab>(true);
+            foreach (var tab in inventoryTabs)
             {
-                inventoryTab = tab;
-                return true;
+                if (tab.Type == inventoryItem.GetItemSOType())
+                {
+                    inventoryTab = tab;
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 }

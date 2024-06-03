@@ -6,27 +6,30 @@ using UnityEngine;
 /// <summary>
 /// Main enemy's class
 /// </summary>
-public class EnemyController : MonoBehaviour
+namespace RoSS
 {
-    Spaceship _spaceship;
-    [SerializeField] bool _isAttacking = true; //TEST VARIABLE
-
-    void Start()
+    public class EnemyController : MonoBehaviour
     {
-        _spaceship = GetComponent<Spaceship>(); 
-    }
-    
+        Spaceship _spaceship;
+        [SerializeField] bool _isAttacking = true; //Temporary attack switch
 
-    void Update()
-    {
-        if (BattleManager.Instance.BattleState == BattleState.Battle && _isAttacking) AttackPlayer();    
-    }
-
-    void AttackPlayer()
-    {
-        foreach (Weapon weapon in _spaceship.weaponList)
+        void Start()
         {
-            if (weapon.CanShoot()) weapon.Shoot();
+            _spaceship = GetComponent<Spaceship>();
+        }
+
+
+        void Update()
+        {
+            if (BattleManager.Instance.BattleState == BattleState.Battle && _isAttacking) AttackPlayer();
+        }
+
+        void AttackPlayer()
+        {
+            foreach (Weapon weapon in _spaceship.weaponList)
+            {
+                if (weapon.CanShoot()) weapon.Shoot();
+            }
         }
     }
 }

@@ -2,46 +2,49 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class FPSCounter : MonoBehaviour
+namespace RoSS
 {
-    public TMP_Text fpsCounterText;
-
-    public int MaxFrames = 60;  
-
-    private List<float> frameTimes = new List<float>();
-
-    void Start()
+    public class FPSCounter : MonoBehaviour
     {
-        frameTimes.Clear();
-    }
+        public TMP_Text fpsCounterText;
 
-    void Update()
-    {
-        AddFrame();
-        fpsCounterText.text = "FPS: " + GetFPS().ToString();
-    }
+        public int MaxFrames = 60;
 
-    private void AddFrame()
-    {
-        frameTimes.Add(Time.unscaledDeltaTime);
-        if (frameTimes.Count > MaxFrames)
+        private List<float> frameTimes = new List<float>();
+
+        void Start()
         {
-            frameTimes.RemoveAt(0);
+            frameTimes.Clear();
         }
-    }
 
-    private float GetFPS()
-    {
-        float newFPS = 0f;
-
-        float totalTimeOfAllFrames = 0f;
-        foreach (float frame in frameTimes)
+        void Update()
         {
-            totalTimeOfAllFrames += frame;
+            AddFrame();
+            fpsCounterText.text = "FPS: " + GetFPS().ToString();
         }
-        newFPS = ((float)(frameTimes.Count)) / totalTimeOfAllFrames;
 
-        return Mathf.Round(newFPS);
+        private void AddFrame()
+        {
+            frameTimes.Add(Time.unscaledDeltaTime);
+            if (frameTimes.Count > MaxFrames)
+            {
+                frameTimes.RemoveAt(0);
+            }
+        }
+
+        private float GetFPS()
+        {
+            float newFPS = 0f;
+
+            float totalTimeOfAllFrames = 0f;
+            foreach (float frame in frameTimes)
+            {
+                totalTimeOfAllFrames += frame;
+            }
+            newFPS = ((float)(frameTimes.Count)) / totalTimeOfAllFrames;
+
+            return Mathf.Round(newFPS);
+        }
+
     }
-
 }

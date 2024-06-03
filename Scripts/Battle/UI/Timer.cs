@@ -5,46 +5,49 @@ using UnityEngine;
 /// <summary>
 /// Controls timer during battle
 /// </summary>
-public class Timer : MonoBehaviour
+namespace RoSS
 {
-    float _time;
-    bool _counting = false;
-    [SerializeField] TMP_Text _timeText;
-
-    public static event Action OnTimeIsUp;
-    public void SetTimer(float timeValue)
+    public class Timer : MonoBehaviour
     {
-        _time = timeValue;
-    }
+        float _time;
+        bool _counting = false;
+        [SerializeField] TMP_Text _timeText;
 
-    public void StartTimer()
-    {
-        _counting = true;
-        gameObject.GetComponent<SmoothMove>().StartMove();
-    }
-
-    public void StopTimer() => _counting = false;
-
-    void Update()
-    {
-        if (!_counting) return;
-
-        _time -= Time.deltaTime;
-
-        if (_time <= 0)
+        public static event Action OnTimeIsUp;
+        public void SetTimer(float timeValue)
         {
-            _time = 0;
-            _counting = false;
-            OnTimeIsUp?.Invoke();
+            _time = timeValue;
         }
-        UpdateTimeText();
-    }
 
-    void UpdateTimeText() 
-    {
-        TimeSpan time = TimeSpan.FromSeconds(_time);
-        _timeText.text = time.ToString("mm':'ss'.<size=42.21>'f");
-       
+        public void StartTimer()
+        {
+            _counting = true;
+            gameObject.GetComponent<SmoothMove>().StartMove();
+        }
+
+        public void StopTimer() => _counting = false;
+
+        void Update()
+        {
+            if (!_counting) return;
+
+            _time -= Time.deltaTime;
+
+            if (_time <= 0)
+            {
+                _time = 0;
+                _counting = false;
+                OnTimeIsUp?.Invoke();
+            }
+            UpdateTimeText();
+        }
+
+        void UpdateTimeText()
+        {
+            TimeSpan time = TimeSpan.FromSeconds(_time);
+            _timeText.text = time.ToString("mm':'ss'.<size=42.21>'f");
+
+        }
+
     }
-        
 }

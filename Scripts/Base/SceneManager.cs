@@ -9,81 +9,85 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Scene manager
 /// </summary>
-public class SceneManager : SerializedMonoBehaviour
+
+namespace RoSS
 {
-
-    public Dictionary<GameState, List<AssetLabelReference>> sceneAddressables = new Dictionary<GameState, List<AssetLabelReference>>();
-
-    Dictionary<AssetLabelReference, AsyncOperationHandle<SceneInstance>> _sceneHandles = new Dictionary<AssetLabelReference, AsyncOperationHandle<SceneInstance>>();
-
-
-    public void LoadScenes(GameState gameState)
+    public class SceneManager : SerializedMonoBehaviour
     {
-        if (sceneAddressables.TryGetValue(gameState, out List<AssetLabelReference> scenesToLoad))
-        {
-            foreach (var scene in scenesToLoad)
-            {
-                if (!_sceneHandles.ContainsKey(scene))
-                {
-                    Addressables.LoadSceneAsync(scene.RuntimeKey, LoadSceneMode.Additive).Completed += (asyncOperationHandle) =>
-                    {
-                        if (UnityEngine.SceneManagement.SceneManager.GetSceneByPath(asyncOperationHandle.Result.Scene.path).isLoaded)
-                        {
-                            _sceneHandles[scene] = asyncOperationHandle;
-                        }
-                        else
-                        {
-                            Debug.LogError("Scene " + asyncOperationHandle.Result.Scene.path + " loading error");
-                        }
-                    };
 
+        public Dictionary<GameState, List<AssetLabelReference>> sceneAddressables = new Dictionary<GameState, List<AssetLabelReference>>();
+
+        Dictionary<AssetLabelReference, AsyncOperationHandle<SceneInstance>> _sceneHandles = new Dictionary<AssetLabelReference, AsyncOperationHandle<SceneInstance>>();
+
+
+        public void LoadScenes(GameState gameState)
+        {
+            if (sceneAddressables.TryGetValue(gameState, out List<AssetLabelReference> scenesToLoad))
+            {
+                foreach (var scene in scenesToLoad)
+                {
+                    if (!_sceneHandles.ContainsKey(scene))
+                    {
+                        Addressables.LoadSceneAsync(scene.RuntimeKey, LoadSceneMode.Additive).Completed += (asyncOperationHandle) =>
+                        {
+                            if (UnityEngine.SceneManagement.SceneManager.GetSceneByPath(asyncOperationHandle.Result.Scene.path).isLoaded)
+                            {
+                                _sceneHandles[scene] = asyncOperationHandle;
+                            }
+                            else
+                            {
+                                Debug.LogError("Scene " + asyncOperationHandle.Result.Scene.path + " loading error");
+                            }
+                        };
+
+                    }
                 }
             }
         }
-    }
 
-    public void UnloadScenes(GameState gameState)
-    {
-        if (sceneAddressables.TryGetValue(gameState, out List<AssetLabelReference> scenesToUnload))
+        public void UnloadScenes(GameState gameState)
         {
-            foreach (var scene in scenesToUnload)
+            if (sceneAddressables.TryGetValue(gameState, out List<AssetLabelReference> scenesToUnload))
             {
-                if (_sceneHandles.TryGetValue(scene, out AsyncOperationHandle<SceneInstance> sceneHandle))
+                foreach (var scene in scenesToUnload)
                 {
-                    Addressables.UnloadSceneAsync(sceneHandle).Completed += (asyncOperationHandle) =>
+                    if (_sceneHandles.TryGetValue(scene, out AsyncOperationHandle<SceneInstance> sceneHandle))
                     {
-                        if (UnityEngine.SceneManagement.SceneManager.GetSceneByPath(asyncOperationHandle.Result.Scene.path).isLoaded)
+                        Addressables.UnloadSceneAsync(sceneHandle).Completed += (asyncOperationHandle) =>
                         {
-                            Debug.LogError("Scene " + asyncOperationHandle.Result.Scene.path + " unloading error");
-                        }
-                        else
-                        {
-                            _sceneHandles.Remove(scene);
-                            if (_sceneHandles.Count == 0) GameManager.Instance.LoadNewState();
+                            if (UnityEngine.SceneManagement.SceneManager.GetSceneByPath(asyncOperationHandle.Result.Scene.path).isLoaded)
+                            {
+                                Debug.LogError("Scene " + asyncOperationHandle.Result.Scene.path + " unloading error");
+                            }
+                            else
+                            {
+                                _sceneHandles.Remove(scene);
+                                if (_sceneHandles.Count == 0) GameManager.Instance.LoadNewState();
 
-                        }
-                    };
-                } 
+                            }
+                        };
+                    }
+                }
             }
-        }
-        else 
-        {
-            GameManager.Instance.LoadNewState();
-        }
-    }
-
-    public void UnloadAllScenes()
-    {
-        if (UnityEngine.SceneManagement.SceneManager.sceneCount > 1)
-        {
-            for (int i = 1; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+            else
             {
-                if (UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isLoaded) UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i));
+                GameManager.Instance.LoadNewState();
             }
-            _sceneHandles.Clear();
         }
+
+        public void UnloadAllScenes()
+        {
+            if (UnityEngine.SceneManagement.SceneManager.sceneCount > 1)
+            {
+                for (int i = 1; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+                {
+                    if (UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isLoaded) UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i));
+                }
+                _sceneHandles.Clear();
+            }
+        }
+
     }
+
 
 }
-
-

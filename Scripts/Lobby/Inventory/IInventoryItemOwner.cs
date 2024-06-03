@@ -1,8 +1,11 @@
 /// <summary>
 /// Interface for the inventory item owner object
 /// </summary>
-public interface IInventoryItemOwner
+namespace RoSS
 {
-    public void AddItem(InventoryItem item);
+    public interface IInventoryItemOwner
+    {
+        public void AddItem(InventoryItem item);
 
+    }
 }

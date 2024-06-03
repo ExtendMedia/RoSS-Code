@@ -5,36 +5,39 @@ using UnityEngine;
 /// <summary>
 /// Player's pools manager
 /// </summary>
-public class PlayerPoolManager : PoolManager
+namespace RoSS
 {
-    [SerializeField] protected Transform _hitPointsPoolParent;
-
-    [SerializeField] HitPoints _hitPointsPrefab;
-    [SerializeField] int _hitPointsPoolSize = 20;
-
-    HitPointsPool _hitPointsPool;
-    void Start()
+    public class PlayerPoolManager : PoolManager
     {
-        Dictionary<ProjectileSO, int> projectileDict = new Dictionary<ProjectileSO, int>();
-        Dictionary<EffectSO, int> effectDict = new Dictionary<EffectSO, int>();
-        GameManager.Instance.Player.ActiveSpaceship.GetWeaponProjectilesAndEffects(out projectileDict, out effectDict);
-        InitPools(projectileDict, _projectilesPoolParent);
-        InitPools(effectDict, _effectsPoolParent);
-        _hitPointsPool = CreatePool(_hitPointsPrefab, _hitPointsPoolSize, _hitPointsPoolParent);
+        [SerializeField] protected Transform _hitPointsPoolParent;
+
+        [SerializeField] HitPoints _hitPointsPrefab;
+        [SerializeField] int _hitPointsPoolSize = 20;
+
+        HitPointsPool _hitPointsPool;
+        void Start()
+        {
+            Dictionary<ProjectileSO, int> projectileDict = new Dictionary<ProjectileSO, int>();
+            Dictionary<EffectSO, int> effectDict = new Dictionary<EffectSO, int>();
+            GameManager.Instance.Player.ActiveSpaceship.GetWeaponProjectilesAndEffects(out projectileDict, out effectDict);
+            InitPools(projectileDict, _projectilesPoolParent);
+            InitPools(effectDict, _effectsPoolParent);
+            _hitPointsPool = CreatePool(_hitPointsPrefab, _hitPointsPoolSize, _hitPointsPoolParent);
+
+        }
+
+        HitPointsPool CreatePool(HitPoints _hitPoints, int size, Transform _hitPointsPoolParent)
+        {
+            HitPointsPool hitPointsPool = new HitPointsPool(_hitPoints, _hitPointsPoolParent);
+            hitPointsPool.PreAllocate(size);
+            return hitPointsPool;
+        }
+
+        public HitPoints GetHitPoints()
+        {
+            return _hitPointsPool.Pool.Get();
+        }
+
 
     }
-
-    HitPointsPool CreatePool(HitPoints _hitPoints, int size, Transform _hitPointsPoolParent)
-    {
-        HitPointsPool hitPointsPool = new HitPointsPool(_hitPoints, _hitPointsPoolParent);
-        hitPointsPool.PreAllocate(size);
-        return hitPointsPool;
-    }
-
-    public HitPoints GetHitPoints()
-    {
-        return _hitPointsPool.Pool.Get();
-    }
-
-
 }

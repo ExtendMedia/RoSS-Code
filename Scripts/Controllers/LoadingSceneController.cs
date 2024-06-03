@@ -8,34 +8,31 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LoadingSceneController : MonoBehaviour
+namespace RoSS
 {
-    [SerializeField] AssetLabelReference scene;
-    [SerializeField] TMP_Text loadingPercText;
-    [SerializeField] Slider loadingPercSlider;
-
-    AsyncOperationHandle<SceneInstance> _sceneHandle;
-    void Start()
+    public class LoadingSceneController : MonoBehaviour
     {
-        _sceneHandle = Addressables.LoadSceneAsync(scene.RuntimeKey);
+        [SerializeField] AssetLabelReference scene;
+        [SerializeField] TMP_Text loadingPercText;
+        [SerializeField] Slider loadingPercSlider;
 
-        _sceneHandle.Completed += (asyncOperationHandle) =>
+        AsyncOperationHandle<SceneInstance> _sceneHandle;
+        void Start()
         {
-            if (UnityEngine.SceneManagement.SceneManager.GetSceneByPath(asyncOperationHandle.Result.Scene.path).isLoaded)
-            {
-                Debug.Log("Scene " + asyncOperationHandle.Result.Scene.path + " loaded correctly");
-            }
-            else
-            {
-                Debug.LogError("Scene " + asyncOperationHandle.Result.Scene.path + " loading error");
-            }
-        };
-    }
+            _sceneHandle = Addressables.LoadSceneAsync(scene.RuntimeKey);
 
-    void Update()
-    {
-        loadingPercText.text = _sceneHandle.PercentComplete.ToString() + "%";
-        loadingPercSlider.value = _sceneHandle.PercentComplete;
-    }
+            _sceneHandle.Completed += (asyncOperationHandle) =>
+            {
+                if (!UnityEngine.SceneManagement.SceneManager.GetSceneByPath(asyncOperationHandle.Result.Scene.path).isLoaded)
+                    Debug.LogError("Scene " + asyncOperationHandle.Result.Scene.path + " loading error");
+            };
+        }
 
+        void Update()
+        {
+            loadingPercText.text = _sceneHandle.PercentComplete.ToString() + "%";
+            loadingPercSlider.value = _sceneHandle.PercentComplete;
+        }
+
+    }
 }

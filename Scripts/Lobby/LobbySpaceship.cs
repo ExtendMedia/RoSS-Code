@@ -5,32 +5,35 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 /// <summary>
 /// Controls the spaceship gameobject in the lobby
 /// </summary>
-public class LobbySpaceship : MonoBehaviour
+namespace RoSS
 {
-    void Awake()
+    public class LobbySpaceship : MonoBehaviour
     {
-        
-        AssetReference lobbySpaceship = GameManager.Instance.Player.ActiveSpaceship.PrefabARef;
-        if (lobbySpaceship.IsDone)
+        void Awake()
         {
-            lobbySpaceship.InstantiateAsync(transform);
-        }
-        else
-        {
-            lobbySpaceship.LoadAssetAsync<GameObject>().Completed += (asyncOperationHandle) =>
+
+            AssetReference lobbySpaceship = GameManager.Instance.Player.ActiveSpaceship.PrefabARef;
+            if (lobbySpaceship.IsDone)
             {
-                if (asyncOperationHandle.Status == AsyncOperationStatus.Succeeded)
+                lobbySpaceship.InstantiateAsync(transform);
+            }
+            else
+            {
+                lobbySpaceship.LoadAssetAsync<GameObject>().Completed += (asyncOperationHandle) =>
                 {
-                    Instantiate(asyncOperationHandle.Result, transform);
-                }
-                else
-                {
-                    Debug.LogError("Failed to load lobby spaceship prefab asset reference: " + GameManager.Instance.Player.ActiveSpaceship.PrefabARef);
-                }
-            };
+                    if (asyncOperationHandle.Status == AsyncOperationStatus.Succeeded)
+                    {
+                        Instantiate(asyncOperationHandle.Result, transform);
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to load lobby spaceship prefab asset reference: " + GameManager.Instance.Player.ActiveSpaceship.PrefabARef);
+                    }
+                };
 
+            }
         }
+
+
     }
-
-
 }

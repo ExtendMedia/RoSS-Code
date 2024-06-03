@@ -5,86 +5,89 @@ using UnityEngine;
 /// <summary>
 /// Class for the spaceship panel in the shipyard scene
 /// </summary>
-public class SpaceshipPanel : MonoBehaviour
+namespace RoSS
 {
-    [SerializeField] TMP_Text _spaceshipNameText;
-    [SerializeField] TMP_Text _spaceshipLevelText;
-    [SerializeField] GameObject _spaceshipSlotsGO;
-    [SerializeField] GameObject _spaceshipItemsContainerGO;
-
-    List<SpaceshipPanelSlot> _spaceshipSlots = new List<SpaceshipPanelSlot>();
-
-    const string SPACESHIP_LEVEL_TEXT = "Level";
-    const int SPACESHIP_LEVEL_SIZE = 50;
-
-    private void SetSpaceshipName() => _spaceshipNameText.text = GameManager.Instance.Player.PlayerSO.DefaultSpaceship.Name;
-
-    private void SetSpaceshipLevel() => _spaceshipLevelText.text = SPACESHIP_LEVEL_TEXT + $" <size={SPACESHIP_LEVEL_SIZE}> " + GameManager.Instance.Player.PlayerSO.DefaultSpaceship.Level;
-
-    public void CreatePanel()
+    public class SpaceshipPanel : MonoBehaviour
     {
-        SetSpaceshipName();
-        SetSpaceshipLevel();
-        SetSpaceshipSlots();
-        SetSpaceshipSlotsState();
-    }
+        [SerializeField] TMP_Text _spaceshipNameText;
+        [SerializeField] TMP_Text _spaceshipLevelText;
+        [SerializeField] GameObject _spaceshipSlotsGO;
+        [SerializeField] GameObject _spaceshipItemsContainerGO;
 
-    private void SetSpaceshipSlots()
-    {
-        var slots = GameManager.Instance.Player.PlayerSO.DefaultSpaceship.ItemSlots;
+        List<SpaceshipPanelSlot> _spaceshipSlots = new List<SpaceshipPanelSlot>();
 
-        foreach (var key in slots.Keys)
+        const string SPACESHIP_LEVEL_TEXT = "Level";
+        const int SPACESHIP_LEVEL_SIZE = 50;
+
+        private void SetSpaceshipName() => _spaceshipNameText.text = GameManager.Instance.Player.PlayerSO.DefaultSpaceship.Name;
+
+        private void SetSpaceshipLevel() => _spaceshipLevelText.text = SPACESHIP_LEVEL_TEXT + $" <size={SPACESHIP_LEVEL_SIZE}> " + GameManager.Instance.Player.PlayerSO.DefaultSpaceship.Level;
+
+        public void CreatePanel()
         {
-            if (slots.TryGetValue(key, out var slotsList))
+            SetSpaceshipName();
+            SetSpaceshipLevel();
+            SetSpaceshipSlots();
+            SetSpaceshipSlotsState();
+        }
+
+        private void SetSpaceshipSlots()
+        {
+            var slots = GameManager.Instance.Player.PlayerSO.DefaultSpaceship.ItemSlots;
+
+            foreach (var key in slots.Keys)
             {
-                AddSpaceshipSlotsGroup(slotsList);
+                if (slots.TryGetValue(key, out var slotsList))
+                {
+                    AddSpaceshipSlotsGroup(slotsList);
+                }
             }
         }
-    }
 
-    private void AddSpaceshipSlotsGroup(List<ItemSlot> slotsList)
-    {
-        var slotsGroup = Instantiate<GameObject>(InventorySystem.Instance.InventorySettings.SpaceshipSlotGroupPrefab, _spaceshipSlotsGO.transform);
-
-        foreach (var item in slotsList)
+        private void AddSpaceshipSlotsGroup(List<ItemSlot> slotsList)
         {
-            AddSpaceshipSlot(item, slotsGroup);
-        }
-    }
+            var slotsGroup = Instantiate<GameObject>(InventorySystem.Instance.InventorySettings.SpaceshipSlotGroupPrefab, _spaceshipSlotsGO.transform);
 
-    private void AddSpaceshipSlot(ItemSlot itemSlot, GameObject slotsGroup)
-    {
-        var slot = Instantiate<GameObject>(InventorySystem.Instance.InventorySettings.SpaceshipSlotPrefab, slotsGroup.gameObject.transform);
-
-        if (slot.TryGetComponent<SpaceshipPanelSlot>(out var spaceshipPanelItem) && InventorySystem.Instance.InventorySettings.ItemTypesSettings.TryGetValue(itemSlot.Type, out var itemTypeSettings))
-        {
-            _spaceshipSlots.Add(spaceshipPanelItem);
-            spaceshipPanelItem.Icon.sprite = itemTypeSettings.SpaceshipPanelIcon;
-            spaceshipPanelItem.Type = itemSlot.Type;
-            if (itemSlot.Item != null)
+            foreach (var item in slotsList)
             {
-                spaceshipPanelItem.ItemSO = itemSlot.Item;
-                AddSpaceshipItem(itemSlot.Item, spaceshipPanelItem, slot.transform);
+                AddSpaceshipSlot(item, slotsGroup);
             }
-
         }
-    }
 
-    private void AddSpaceshipItem(ItemSO itemSO, IInventoryItemOwner spaceshipPanelItem, Transform slot)
-    {
-        GameObject itemGO = Instantiate<GameObject>(InventorySystem.Instance.InventorySettings.ItemPrefab);
-        InventoryItem inventoryItem = itemGO.GetComponent<InventoryItem>();
-        inventoryItem.Create(itemSO, spaceshipPanelItem, slot);
-    }
-
-    public void SetSpaceshipSlotsState()
-    {
-        foreach (var slot in _spaceshipSlots)
+        private void AddSpaceshipSlot(ItemSlot itemSlot, GameObject slotsGroup)
         {
-            slot.UpdateState();
+            var slot = Instantiate<GameObject>(InventorySystem.Instance.InventorySettings.SpaceshipSlotPrefab, slotsGroup.gameObject.transform);
 
+            if (slot.TryGetComponent<SpaceshipPanelSlot>(out var spaceshipPanelItem) && InventorySystem.Instance.InventorySettings.ItemTypesSettings.TryGetValue(itemSlot.Type, out var itemTypeSettings))
+            {
+                _spaceshipSlots.Add(spaceshipPanelItem);
+                spaceshipPanelItem.Icon.sprite = itemTypeSettings.SpaceshipPanelIcon;
+                spaceshipPanelItem.Type = itemSlot.Type;
+                if (itemSlot.Item != null)
+                {
+                    spaceshipPanelItem.ItemSO = itemSlot.Item;
+                    AddSpaceshipItem(itemSlot.Item, spaceshipPanelItem, slot.transform);
+                }
+
+            }
         }
+
+        private void AddSpaceshipItem(ItemSO itemSO, IInventoryItemOwner spaceshipPanelItem, Transform slot)
+        {
+            GameObject itemGO = Instantiate<GameObject>(InventorySystem.Instance.InventorySettings.ItemPrefab);
+            InventoryItem inventoryItem = itemGO.GetComponent<InventoryItem>();
+            inventoryItem.Create(itemSO, spaceshipPanelItem, slot);
+        }
+
+        public void SetSpaceshipSlotsState()
+        {
+            foreach (var slot in _spaceshipSlots)
+            {
+                slot.UpdateState();
+
+            }
+        }
+
+
     }
-
-
 }

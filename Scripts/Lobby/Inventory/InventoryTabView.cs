@@ -4,24 +4,27 @@ using UnityEngine;
 /// <summary>
 /// Inventory tab visuals
 /// </summary>
-public class InventoryTabView : MonoBehaviour
+namespace RoSS
 {
-    [SerializeField] TMP_Text _tabTitle;
-    [SerializeField] Transform _itemsContainer;
-
-
-    void SetParent(Transform item)
+    public class InventoryTabView : MonoBehaviour
     {
-        item.SetParent(_itemsContainer);
+        [SerializeField] TMP_Text _tabTitle;
+        [SerializeField] Transform _itemsContainer;
+
+
+        void SetParent(Transform item)
+        {
+            item.SetParent(_itemsContainer);
+        }
+
+        void SetTitle(string title) => _tabTitle.text = title;
+
+        public Transform GetItemsContainer() => _itemsContainer;
+
+        public void UpdateView(ItemType type)
+        {
+            SetTitle(type.ToString());
+        }
+
     }
-
-    void SetTitle(string title) => _tabTitle.text = title;
-
-    public Transform GetItemsContainer() => _itemsContainer;
-
-    public void UpdateView(ItemType type)
-    {
-        SetTitle(type.ToString());
-    }
-
 }

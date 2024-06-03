@@ -1,11 +1,14 @@
 ﻿/// <summary>
 /// Controls Player's statistics
 /// </summary>
-public class PlayerStatsController : StatsController
+namespace RoSS
 {
-    protected override void Awake()
+    public class PlayerStatsController : StatsController
     {
-        MaxHealth = GameManager.Instance.Player.ActiveSpaceship.Health;
-    }
+        protected override void Awake()
+        {
+            MaxHealth = GameManager.Instance.Player.ActiveSpaceship.Health;
+        }
 
+    }
 }

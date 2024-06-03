@@ -3,46 +3,50 @@ using UnityEngine;
 /// <summary>
 /// Main player controller. Controlls movement and shooting
 /// </summary>
-public class PlayerController : MonoBehaviour
+namespace RoSS
 {
-    private PlayerInputActions _playerInput;
-
-    private CharacterController _controller;
-    [SerializeField]
-    private float playerSpeed = 10.0f;
-
-    [SerializeField] AttackController _mainAttack;
-    [SerializeField] AttackController _specialAttack;
-
-
-    private void Awake()
+    public class PlayerController : MonoBehaviour
     {
-        _playerInput = new PlayerInputActions();
-        _controller = GetComponent<CharacterController>();
+        private PlayerInputActions _playerInput;
 
-    }
-    private void OnEnable()
-    {
-        _playerInput.Enable();
-    }
-    private void OnDisable()
-    {
-        _playerInput.Disable();
-    }
-    void Update()
-    {
-        Vector2 movementInput = _playerInput.PlayerMain.Move.ReadValue<Vector2>();
-        Vector3 move = new Vector3(movementInput.x, movementInput.y, 0f);
-        _controller.Move(move * Time.deltaTime * playerSpeed);
+        private CharacterController _controller;
+        [SerializeField]
+        private float playerSpeed = 10.0f;
 
-        if (_playerInput.PlayerMain.MainAttack.triggered)
+        [SerializeField] AttackController _mainAttack;
+        [SerializeField] AttackController _specialAttack;
+
+
+        private void Awake()
         {
-            _mainAttack.Shoot();
+            _playerInput = new PlayerInputActions();
+            _controller = GetComponent<CharacterController>();
 
         }
-        else if (_playerInput.PlayerMain.SpecialAttack.triggered)
+        private void OnEnable()
         {
-            _specialAttack.Shoot();
+            _playerInput.Enable();
+        }
+        private void OnDisable()
+        {
+            _playerInput.Disable();
+        }
+        void Update()
+        {
+            Vector2 movementInput = _playerInput.PlayerMain.Move.ReadValue<Vector2>();
+            Vector3 move = new Vector3(movementInput.x, movementInput.y, 0f);
+            _controller.Move(move * Time.deltaTime * playerSpeed);
+
+            if (_playerInput.PlayerMain.MainAttack.triggered)
+            {
+                _mainAttack.Shoot();
+
+            }
+            else if (_playerInput.PlayerMain.SpecialAttack.triggered)
+            {
+                _specialAttack.Shoot();
+            }
+
         }
 
     }

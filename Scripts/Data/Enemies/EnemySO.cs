@@ -4,17 +4,20 @@ using UnityEngine;
 /// <summary>
 /// Scriptable Object class for the enemy
 /// </summary>
-[CreateAssetMenu(fileName = "New Enemy", menuName = "Data/Enemies")]
-public class EnemySO : SerializedScriptableObject
+namespace RoSS
 {
-    [SerializeField] SpaceshipSO _spaceshipSO;
-    [SerializeField] string _name;
-    [SerializeField] Sprite _image;
+    [CreateAssetMenu(fileName = "New Enemy", menuName = "Data/Enemies")]
+    public class EnemySO : SerializedScriptableObject
+    {
+        [SerializeField] SpaceshipSO _spaceshipSO;
+        [SerializeField] string _name;
+        [SerializeField] Sprite _image;
 
-    public string Name { get => _name; private set => _name = value; }
-    public Sprite Image { get => _image; private set => _image = value; }
+        public string Name { get => _name; private set => _name = value; }
+        public Sprite Image { get => _image; private set => _image = value; }
 
 
-    public SpaceshipSO GetSpaceshipSO() => _spaceshipSO;
+        public SpaceshipSO GetSpaceshipSO() => _spaceshipSO;
 
+    }
 }
