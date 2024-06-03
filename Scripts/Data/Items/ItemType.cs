@@ -1,8 +1,10 @@
-
-public enum ItemType
+namespace RoSS
 {
-    Primary,
-    Secondary,
-    Additional,
-    Energy
+    public enum ItemType
+    {
+        Primary,
+        Secondary,
+        Additional,
+        Energy
+    }
 }

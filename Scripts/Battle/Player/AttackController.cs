@@ -5,97 +5,100 @@ using UnityEngine.UI;
 /// <summary>
 /// Controls player's attacks
 /// </summary>
-public class AttackController : MonoBehaviour
+namespace RoSS
 {
-    [SerializeField] Button _button;
-    [SerializeField] GameObject _iconFocus;
-    [SerializeField] ItemType _weaponType;
-    [SerializeField] AttackWeapon _attackWeaponPrefab;
-
-
-    Transform _spawner;
-    Transform _target;
-    //List<WeaponItemSO> _weapons = new List<WeaponItemSO>();
-    List<AttackWeapon> _weaponUI = new List<AttackWeapon>();
-
-    int _activeWeaponCount = 0;
-    void Awake()
+    public class AttackController : MonoBehaviour
     {
-        _button.onClick.AddListener(() => Shoot());
-        //_weapons = GameManager.Instance.Player.ActiveSpaceship.GetWeapons(_weaponTypeSO);
-    }
-    void Start()
-    {
-        _spawner = BattleManager.Instance.GetSpawner();
-        _target = BattleManager.Instance.GetTarget();
-        SetButtons();
-    }
+        [SerializeField] Button _button;
+        [SerializeField] GameObject _iconFocus;
+        [SerializeField] ItemType _weaponType;
+        [SerializeField] AttackWeapon _attackWeaponPrefab;
 
-    public void Shoot()
-    {
-        if (BattleManager.Instance.BattleState != BattleState.Battle) return;
 
-        if (_activeWeaponCount <= 0) return;
-        foreach (var weapon in _weaponUI)
+        Transform _spawner;
+        Transform _target;
+        //List<WeaponItemSO> _weapons = new List<WeaponItemSO>();
+        List<AttackWeapon> _weaponUI = new List<AttackWeapon>();
+
+        int _activeWeaponCount = 0;
+        void Awake()
         {
-            if (!weapon.IsReloading())
+            _button.onClick.AddListener(() => Shoot());
+            //_weapons = GameManager.Instance.Player.ActiveSpaceship.GetWeapons(_weaponTypeSO);
+        }
+        void Start()
+        {
+            _spawner = BattleManager.Instance.GetSpawner();
+            _target = BattleManager.Instance.GetTarget();
+            SetButtons();
+        }
+
+        public void Shoot()
+        {
+            if (BattleManager.Instance.BattleState != BattleState.Battle) return;
+
+            if (_activeWeaponCount <= 0) return;
+            foreach (var weapon in _weaponUI)
             {
-                weapon.StartReloading();
-                _activeWeaponCount--;
-                UpdateButtonIcon();
-                weapon.SpawnProjectile(_target);
-                break;
+                if (!weapon.IsReloading())
+                {
+                    weapon.StartReloading();
+                    _activeWeaponCount--;
+                    UpdateButtonIcon();
+                    weapon.SpawnProjectile(_target);
+                    break;
+                }
             }
         }
-    }
 
 
 
 
-    void SetButtons()
-    {
-        float rotation = 0;
-        int i = 1;
-        ProjectileSpawner[] spawners = _spawner.GetComponentsInChildren<ProjectileSpawner>();
-        int spawnerIndex = 0;
-
-        foreach (var slotsGroup in GameManager.Instance.Player.ActiveSpaceship.GetWeaponsInSlots(_weaponType))
+        void SetButtons()
         {
-            foreach (WeaponItemSO weapon in slotsGroup.Value)
+            float rotation = 0;
+            int i = 1;
+            ProjectileSpawner[] spawners = _spawner.GetComponentsInChildren<ProjectileSpawner>();
+            int spawnerIndex = 0;
+
+            foreach (var slotsGroup in GameManager.Instance.Player.ActiveSpaceship.GetWeaponsInSlots(_weaponType))
             {
-
-                AttackWeapon attackWeapon;
-                if (_attackWeaponPrefab != null)
+                foreach (WeaponItemSO weapon in slotsGroup.Value)
                 {
-                    attackWeapon = Instantiate<AttackWeapon>(_attackWeaponPrefab, transform.position, Quaternion.Euler(new Vector3(0, 0, rotation)), transform);
 
-                }
-                else
-                {
-                    GameObject attackWeaponGO = new GameObject("Attack " + i++);
-                    attackWeaponGO.transform.SetPositionAndRotation(transform.position, transform.rotation);
-                    attackWeaponGO.transform.SetParent(transform);
-                    attackWeapon = attackWeaponGO.AddComponent<AttackWeapon>();
-                }
-                rotation -= 90f;
+                    AttackWeapon attackWeapon;
+                    if (_attackWeaponPrefab != null)
+                    {
+                        attackWeapon = Instantiate<AttackWeapon>(_attackWeaponPrefab, transform.position, Quaternion.Euler(new Vector3(0, 0, rotation)), transform);
 
-                attackWeapon.SetWeapon(weapon);
-                if (spawners.Length > slotsGroup.Key && spawners[slotsGroup.Key] != null) spawnerIndex = slotsGroup.Key;
-                attackWeapon.SetSpawner(spawners[spawnerIndex].transform);
-                attackWeapon.OnWeaponReloaded += WeaponReloaded;
-                _weaponUI.Add(attackWeapon);
+                    }
+                    else
+                    {
+                        GameObject attackWeaponGO = new GameObject("Attack " + i++);
+                        attackWeaponGO.transform.SetPositionAndRotation(transform.position, transform.rotation);
+                        attackWeaponGO.transform.SetParent(transform);
+                        attackWeapon = attackWeaponGO.AddComponent<AttackWeapon>();
+                    }
+                    rotation -= 90f;
+
+                    attackWeapon.SetWeapon(weapon);
+                    if (spawners.Length > slotsGroup.Key && spawners[slotsGroup.Key] != null) spawnerIndex = slotsGroup.Key;
+                    attackWeapon.SetSpawner(spawners[spawnerIndex].transform);
+                    attackWeapon.OnWeaponReloaded += WeaponReloaded;
+                    _weaponUI.Add(attackWeapon);
+                }
             }
         }
-    }
 
-    void WeaponReloaded()
-    {
-        _activeWeaponCount++;
-        UpdateButtonIcon();
-    }
+        void WeaponReloaded()
+        {
+            _activeWeaponCount++;
+            UpdateButtonIcon();
+        }
 
-    void UpdateButtonIcon()
-    {
-        if (_iconFocus) _iconFocus.SetActive(_activeWeaponCount > 0);
+        void UpdateButtonIcon()
+        {
+            if (_iconFocus) _iconFocus.SetActive(_activeWeaponCount > 0);
+        }
     }
 }

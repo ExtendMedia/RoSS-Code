@@ -6,27 +6,30 @@ using UnityEngine;
 /// <summary>
 /// Returns hitpoints gameobjects to the pool
 /// </summary>
-[RequireComponent(typeof(HitPoints))]
-public class ReturnHitPointsToBattlePool : ReturnToPool<HitPoints>
+namespace RoSS
 {
-    HitPoints _hitPoints;
-
-    void Awake()
+    [RequireComponent(typeof(HitPoints))]
+    public class ReturnHitPointsToBattlePool : ReturnToPool<HitPoints>
     {
-        _hitPoints = GetComponent<HitPoints>();
-        _hitPoints.OnSpawn += SpawnHandler;
-    }
+        HitPoints _hitPoints;
+
+        void Awake()
+        {
+            _hitPoints = GetComponent<HitPoints>();
+            _hitPoints.OnSpawn += SpawnHandler;
+        }
 
 
-    void SpawnHandler()
-    {
-        Invoke("SelfRelease", _hitPoints.LifeTime);
+        void SpawnHandler()
+        {
+            Invoke("SelfRelease", _hitPoints.LifeTime);
 
-    }
+        }
 
-    
-    void SelfRelease()
-    {
-        if (gameObject.activeSelf) pool.Release(_hitPoints);
+
+        void SelfRelease()
+        {
+            if (gameObject.activeSelf) pool.Release(_hitPoints);
+        }
     }
 }

@@ -5,9 +5,15 @@ using UnityEngine;
 /// <summary>
 /// Scriptable object for the player's spaceships
 /// </summary>
-[CreateAssetMenu(fileName = "New Spaceships List", menuName = "Data/Spaceships List")]
-public class SpaceshipsListSO : SerializedScriptableObject
+
+namespace RoSS
 {
-    [SerializeField] List<SpaceshipSO> _spaceshipsList;
-    public List<SpaceshipSO> SpaceshipsList { get => _spaceshipsList; private set => _spaceshipsList = value; }
+
+    [CreateAssetMenu(fileName = "New Spaceships List", menuName = "Data/Spaceships List")]
+
+    public class SpaceshipsListSO : SerializedScriptableObject
+    {
+        [SerializeField] List<SpaceshipSO> _spaceshipsList;
+        public List<SpaceshipSO> SpaceshipsList { get => _spaceshipsList; private set => _spaceshipsList = value; }
+    }
 }

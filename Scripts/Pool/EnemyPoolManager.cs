@@ -6,16 +6,19 @@ using UnityEngine;
 /// <summary>
 /// Enemy's pools manager
 /// </summary>
-public class EnemyPoolManager : PoolManager
+namespace RoSS
 {
-    void Start()
+    public class EnemyPoolManager : PoolManager
     {
-        Dictionary<ProjectileSO, int> projectileDict = new Dictionary<ProjectileSO, int>();
-        Dictionary<EffectSO, int> effectDict = new Dictionary<EffectSO, int>();
-        BattleManager.Instance.GetEnemySpaceship().SpaceshipSO.GetWeaponProjectilesAndEffects(out projectileDict, out effectDict, false, true, true);
-        InitPools(projectileDict, _projectilesPoolParent);
-        InitPools(effectDict, _effectsPoolParent);
+        void Start()
+        {
+            Dictionary<ProjectileSO, int> projectileDict = new Dictionary<ProjectileSO, int>();
+            Dictionary<EffectSO, int> effectDict = new Dictionary<EffectSO, int>();
+            BattleManager.Instance.GetEnemySpaceship().SpaceshipSO.GetWeaponProjectilesAndEffects(out projectileDict, out effectDict, true, true, true);
+            InitPools(projectileDict, _projectilesPoolParent);
+            InitPools(effectDict, _effectsPoolParent);
+        }
+
+
     }
-
-
 }

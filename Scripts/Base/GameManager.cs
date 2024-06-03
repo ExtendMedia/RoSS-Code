@@ -4,103 +4,107 @@ using UnityEngine;
 /// <summary>
 /// Main Game Manager
 /// </summary>
-public class GameManager : MonoBehaviour
+
+namespace RoSS
 {
-    public static GameManager Instance { get; private set; }
-
-    public GameState GameState { get; private set; }
-    public Player Player { get; private set; }
-
-    public StageManager StageManager { get; private set; }
-
-    public MusicManager MusicManager { get; private set; }
-
-    public SceneManager SceneManager { get; private set; }
-
-    public bool gameOver = false;
-
-    void Awake()
+    public class GameManager : MonoBehaviour
     {
-        if (Instance != null && Instance != this)
+        public static GameManager Instance { get; private set; }
+
+        public GameState GameState { get; private set; }
+        public Player Player { get; private set; }
+
+        public StageManager StageManager { get; private set; }
+
+        public MusicManager MusicManager { get; private set; }
+
+        public SceneManager SceneManager { get; private set; }
+
+        public bool gameOver = false;
+
+        void Awake()
         {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            Instance = this;
-            Player = GetComponentInChildren<Player>();
-            SceneManager = GetComponentInChildren<SceneManager>();
-            StageManager = GetComponentInChildren<StageManager>();
-            MusicManager = GetComponentInChildren<MusicManager>();
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                Instance = this;
+                Player = GetComponentInChildren<Player>();
+                SceneManager = GetComponentInChildren<SceneManager>();
+                StageManager = GetComponentInChildren<StageManager>();
+                MusicManager = GetComponentInChildren<MusicManager>();
 
-        }
-    }
-
-    private void Start()
-    {
-        SceneManager.UnloadAllScenes();
-        ChangeState(GameState.Title);
-    }
-    public void ChangeState(GameState newState)
-    {
-        var oldState = GameState;
-        GameState = newState;
-        SceneManager.UnloadScenes(oldState);
-    }
-
-    public void LoadNewState()
-    {
-        switch (GameState)
-        {
-            case GameState.Title:
-                HandleTitle();
-                break;
-            case GameState.Lobby:
-                HandleLobby();
-                break;
-            case GameState.Battle:
-                HandleBattle();
-                break;
-            default:
-                HandleScene(GameState);
-                break;
+            }
         }
 
-    }
+        private void Start()
+        {
+            SceneManager.UnloadAllScenes();
+            ChangeState(GameState.Title);
+        }
+        public void ChangeState(GameState newState)
+        {
+            var oldState = GameState;
+            GameState = newState;
+            SceneManager.UnloadScenes(oldState);
+        }
 
-    private void HandleBattle()
+        public void LoadNewState()
+        {
+            switch (GameState)
+            {
+                case GameState.Title:
+                    HandleTitle();
+                    break;
+                case GameState.Lobby:
+                    HandleLobby();
+                    break;
+                case GameState.Battle:
+                    HandleBattle();
+                    break;
+                default:
+                    HandleScene(GameState);
+                    break;
+            }
+
+        }
+
+        private void HandleBattle()
+        {
+            SceneManager.LoadScenes(GameState.Battle);
+            MusicManager.ChangePlaylist(GameState.Battle);
+
+        }
+
+        private void HandleScene(GameState gameState)
+        {
+            SceneManager.LoadScenes(gameState);
+        }
+
+        private void HandleLobby()
+        {
+            SceneManager.LoadScenes(GameState.Lobby);
+            MusicManager.ChangePlaylist(GameState.Lobby);
+        }
+
+        private void HandleTitle()
+        {
+            SceneManager.LoadScenes(GameState.Title);
+        }
+    }
+    [Serializable]
+    public enum GameState
     {
-        SceneManager.LoadScenes(GameState.Battle);
-        MusicManager.ChangePlaylist(GameState.Battle);
-
+        Start,
+        Title,
+        Lobby,
+        Shipyard,
+        Missions,
+        Lab,
+        Factory,
+        Shop,
+        Battle,
     }
-
-    private void HandleScene(GameState gameState)
-    {
-        SceneManager.LoadScenes(gameState);
-    }
-
-    private void HandleLobby()
-    {
-        SceneManager.LoadScenes(GameState.Lobby);
-        MusicManager.ChangePlaylist(GameState.Lobby);
-    }
-
-    private void HandleTitle()
-    {
-        SceneManager.LoadScenes(GameState.Title);
-    }
-}
-[Serializable]
-public enum GameState
-{
-    Start,
-    Title,
-    Lobby,
-    Shipyard,
-    Missions,
-    Lab,
-    Factory,
-    Shop,
-    Battle,
 }

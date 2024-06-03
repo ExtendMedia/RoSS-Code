@@ -1,8 +1,11 @@
 /// <summary>
 /// Struct for the player's level
 /// </summary>
-public struct PlayerLevel
+namespace RoSS
 {
-    public int NextLevelExp;
+    public struct PlayerLevel
+    {
+        public int NextLevelExp;
 
+    }
 }

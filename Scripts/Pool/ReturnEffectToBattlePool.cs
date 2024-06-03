@@ -3,24 +3,27 @@ using UnityEngine;
 /// <summary>
 /// A class that returns effects to the pool
 /// </summary>
-[RequireComponent(typeof(Effect))]
-public class ReturnEffectToBattlePool : ReturnToPool<Effect>
+namespace RoSS
 {
-    Effect _effect;
-
-    void Start()
+    [RequireComponent(typeof(Effect))]
+    public class ReturnEffectToBattlePool : ReturnToPool<Effect>
     {
-        _effect = GetComponent<Effect>();
+        Effect _effect;
 
-        ParticleSystem _system = GetComponent<ParticleSystem>();
-        var main = _system.main;
-        main.stopAction = ParticleSystemStopAction.Callback;
+        void Start()
+        {
+            _effect = GetComponent<Effect>();
+
+            ParticleSystem _system = GetComponent<ParticleSystem>();
+            var main = _system.main;
+            main.stopAction = ParticleSystemStopAction.Callback;
+
+        }
+
+        void OnParticleSystemStopped()
+        {
+            pool.Release(_effect);
+        }
 
     }
-
-    void OnParticleSystemStopped()
-    {
-        pool.Release(_effect);
-    }
-
 }

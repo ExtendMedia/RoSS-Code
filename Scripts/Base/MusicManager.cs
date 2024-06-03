@@ -3,67 +3,71 @@ using UnityEngine;
 /// <summary>
 /// Music manager
 /// </summary>
-public class MusicManager : MonoBehaviour
+
+namespace RoSS
 {
-    [SerializeField] AudioClip[] _lobbyMusic;
-    [SerializeField] AudioClip[] _battleMusic;
-    [SerializeField] AudioSource _audioSource;
-
-    AudioClip[] _activePlaylist;
-    int _lastSongIndex;
-    void Start()
+    public class MusicManager : MonoBehaviour
     {
-        _activePlaylist = _lobbyMusic;
-        if (_activePlaylist.Length == 0)
+        [SerializeField] AudioClip[] _lobbyMusic;
+        [SerializeField] AudioClip[] _battleMusic;
+        [SerializeField] AudioSource _audioSource;
+
+        AudioClip[] _activePlaylist;
+        int _lastSongIndex;
+        void Start()
         {
-            Debug.LogError("No more songs in active playlist");
-            return;
+            _activePlaylist = _lobbyMusic;
+            if (_activePlaylist.Length == 0)
+            {
+                Debug.LogError("No more songs in active playlist");
+                return;
+            }
+            PlayNewSong();
         }
-        PlayNewSong();
-    }
 
-    void Update()
-    {
-        if (_audioSource.isPlaying) return;
-        PlayNewSong();
-    }
-
-    void PlayNewSong()
-    {
-        _lastSongIndex = RandomizeSong(_activePlaylist.Length);
-        _audioSource.clip = _activePlaylist[_lastSongIndex];
-        _audioSource.Play();
-    }
-
-    int RandomizeSong(int maxIndex)
-    {
-        if (maxIndex == 1) return 0;
-        int newSongIndex = Random.Range(0, maxIndex);
-        while (newSongIndex == _lastSongIndex)
-            newSongIndex = Random.Range(0, maxIndex);
-        return newSongIndex;
-    }
-
-    public void ChangePlaylist(GameState gameState)
-    {
-        AudioClip[] previousPlaylist = _activePlaylist;
-
-        switch (gameState)
+        void Update()
         {
-            case GameState.Battle:
-                _activePlaylist = _battleMusic;
-                break;
-            default:
-                _activePlaylist = _lobbyMusic;
-                break;
+            if (_audioSource.isPlaying) return;
+            PlayNewSong();
         }
-        if (_activePlaylist.Length == 0)
-        {
-            Debug.LogError("No more songs in active playlist");
-            return;
-        }
-        if (previousPlaylist != _activePlaylist) _audioSource.Stop();
-    }
 
-    
+        void PlayNewSong()
+        {
+            _lastSongIndex = RandomizeSong(_activePlaylist.Length);
+            _audioSource.clip = _activePlaylist[_lastSongIndex];
+            _audioSource.Play();
+        }
+
+        int RandomizeSong(int maxIndex)
+        {
+            if (maxIndex == 1) return 0;
+            int newSongIndex = Random.Range(0, maxIndex);
+            while (newSongIndex == _lastSongIndex)
+                newSongIndex = Random.Range(0, maxIndex);
+            return newSongIndex;
+        }
+
+        public void ChangePlaylist(GameState gameState)
+        {
+            AudioClip[] previousPlaylist = _activePlaylist;
+
+            switch (gameState)
+            {
+                case GameState.Battle:
+                    _activePlaylist = _battleMusic;
+                    break;
+                default:
+                    _activePlaylist = _lobbyMusic;
+                    break;
+            }
+            if (_activePlaylist.Length == 0)
+            {
+                Debug.LogError("No more songs in active playlist");
+                return;
+            }
+            if (previousPlaylist != _activePlaylist) _audioSource.Stop();
+        }
+
+
+    }
 }

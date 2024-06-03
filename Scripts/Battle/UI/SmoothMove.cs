@@ -4,26 +4,29 @@ using UnityEngine;
 /// <summary>
 /// Smooth moves the gameobject to a specific position
 /// </summary>
-public class SmoothMove : MonoBehaviour
+namespace RoSS
 {
-    [SerializeField] Vector3 _offset;
-    [SerializeField] float _speed = 10f;
-
-    public void StartMove()
+    public class SmoothMove : MonoBehaviour
     {
-        StartCoroutine(Moving());
-    }
+        [SerializeField] Vector3 _offset;
+        [SerializeField] float _speed = 10f;
 
-    public void SetOffset(Vector3 offset) => _offset = offset;
-
-    IEnumerator Moving()
-    {
-        Vector3 destination = transform.position + _offset;
-        while (transform.position != destination)
+        public void StartMove()
         {
-            transform.position = Vector3.Slerp(transform.position, destination, Time.deltaTime *_speed);
-            yield return null;
+            StartCoroutine(Moving());
         }
-    }
 
+        public void SetOffset(Vector3 offset) => _offset = offset;
+
+        IEnumerator Moving()
+        {
+            Vector3 destination = transform.position + _offset;
+            while (transform.position != destination)
+            {
+                transform.position = Vector3.Slerp(transform.position, destination, Time.deltaTime * _speed);
+                yield return null;
+            }
+        }
+
+    }
 }

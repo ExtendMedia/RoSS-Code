@@ -1,9 +1,11 @@
-
-public enum ItemRarity
+namespace RoSS
 {
-    Normal,
-    Rare,
-    Epic,
-    Unique,
-    Legendary
+    public enum ItemRarity
+    {
+        Normal,
+        Rare,
+        Epic,
+        Unique,
+        Legendary
+    }
 }

@@ -3,12 +3,15 @@ using UnityEngine;
 /// <summary>
 /// Main player class
 /// </summary>
-public class Player : MonoBehaviour
+namespace RoSS
 {
+    public class Player : MonoBehaviour
+    {
 
-    public PlayerSO PlayerSO;
+        public PlayerSO PlayerSO;
 
-    public SpaceshipSO ActiveSpaceship => PlayerSO.DefaultSpaceship;
+        public SpaceshipSO ActiveSpaceship => PlayerSO.DefaultSpaceship;
 
 
+    }
 }

@@ -3,20 +3,44 @@ using UnityEngine;
 /// <summary>
 /// Controls turrets rotation so that they look at the target (i.e. player) 
 /// </summary>
-public class LookAtTarget : MonoBehaviour
+namespace RoSS
 {
-    Transform _target;
-    [SerializeField] float _rotationSpeed = 1;
-    void Start()
+    public class LookAtTarget : MonoBehaviour
     {
-        _target = BattleManager.Instance.GetTarget();
-    }
+        Transform _target;
+        [SerializeField] Transform _barrel;
+        [SerializeField] float _rotationSpeed = 1;
 
-    void Update()
-    {
-        Vector3 direction = (new Vector3(_target.position.x, _target.position.y, transform.position.z) - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(direction, -Vector3.forward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * _rotationSpeed);
-    }
 
+        void Start()
+        {
+            _target = BattleManager.Instance.GetTarget();
+        }
+
+        void Update()
+        {
+            RotateTurretBase();
+
+            if (_barrel != null)
+                TiltTurretBarrels();
+
+        }
+
+
+        void RotateTurretBase()
+        {
+            Vector3 baseDirection = Vector3.ProjectOnPlane(_target.position - transform.position, -transform.up).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(baseDirection, -Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * _rotationSpeed);
+        }
+
+        void TiltTurretBarrels()
+        {
+            Vector3 tiltDirection = Vector3.ProjectOnPlane(_target.position - _barrel.transform.position, -_barrel.transform.right).normalized;
+            Quaternion tiltRotation = Quaternion.LookRotation(tiltDirection, transform.up);
+            _barrel.transform.rotation = Quaternion.Slerp(_barrel.transform.rotation, tiltRotation, Time.deltaTime * _rotationSpeed);
+        }
+
+
+    }
 }

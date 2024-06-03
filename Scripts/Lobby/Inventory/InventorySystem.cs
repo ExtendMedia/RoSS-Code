@@ -5,116 +5,119 @@ using UnityEngine;
 /// <summary>
 /// Controls the inventory
 /// </summary>
-public class InventorySystem : MonoBehaviour
+namespace RoSS
 {
-    public static InventorySystem Instance { get; private set; }
-
-
-    [SerializeField] InventorySO _inventory;
-    [SerializeField] InventorySettingsSO _inventorySettings;
-
-    [SerializeField] Transform _inventoryMenu;
-    [SerializeField] Transform _inventoryContent;
-    [SerializeField] SpaceshipPanel _spaceshipPanel;
-
-    public Transform draggingLayer;
-
-    public InventorySettingsSO InventorySettings { get => _inventorySettings; private set => _inventorySettings = value; }
-
-    Dictionary<ItemType, List<ItemSO>> _sortedItems = new Dictionary<ItemType, List<ItemSO>>();
-
-    public InventoryTab ActiveTab;
-    List<InventoryTab> _inventoryTabs = new List<InventoryTab>();
-
-    void Awake()
+    public class InventorySystem : MonoBehaviour
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            Instance = this;
-            SortInventoryItemsByType();
-            CreateInventory();
-            _spaceshipPanel.CreatePanel();
-        }
-    }
+        public static InventorySystem Instance { get; private set; }
 
-    void SortInventoryItemsByType()
-    {
-        foreach (ItemType itemType in Enum.GetValues(typeof(ItemType)))
-        {
-            _sortedItems.Add(itemType, new List<ItemSO>());
-        }
 
-        foreach (var item in _inventory.Items)
+        [SerializeField] InventorySO _inventory;
+        [SerializeField] InventorySettingsSO _inventorySettings;
+
+        [SerializeField] Transform _inventoryMenu;
+        [SerializeField] Transform _inventoryContent;
+        [SerializeField] SpaceshipPanel _spaceshipPanel;
+
+        public Transform draggingLayer;
+
+        public InventorySettingsSO InventorySettings { get => _inventorySettings; private set => _inventorySettings = value; }
+
+        Dictionary<ItemType, List<ItemSO>> _sortedItems = new Dictionary<ItemType, List<ItemSO>>();
+
+        public InventoryTab ActiveTab;
+        List<InventoryTab> _inventoryTabs = new List<InventoryTab>();
+
+        void Awake()
         {
-            if (_sortedItems.TryGetValue(item.Type, out var itemList))
+            if (Instance != null && Instance != this)
             {
-                itemList.Add(item);
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                Instance = this;
+                SortInventoryItemsByType();
+                CreateInventory();
+                _spaceshipPanel.CreatePanel();
             }
         }
-    }
 
-    void SetActiveTab(ItemType itemType)
-    {
-        if (ActiveTab.Type == itemType) return;
-        ActiveTab.SetActive(false);
-        foreach (var inventoryTab in _inventoryTabs)
+        void SortInventoryItemsByType()
         {
-            if (inventoryTab.Type == itemType)
+            foreach (ItemType itemType in Enum.GetValues(typeof(ItemType)))
             {
-                ActiveTab = inventoryTab;
-                ActiveTab.SetActive(true);
-                return;
+                _sortedItems.Add(itemType, new List<ItemSO>());
+            }
+
+            foreach (var item in _inventory.Items)
+            {
+                if (_sortedItems.TryGetValue(item.Type, out var itemList))
+                {
+                    itemList.Add(item);
+                }
             }
         }
-    }
 
-
-
-
-    void CreateInventory()
-    {
-        bool first = true;
-        foreach (ItemType itemType in Enum.GetValues(typeof(ItemType)))
+        void SetActiveTab(ItemType itemType)
         {
-            if (!first) AddInventoryTabButtonSeparator();
-            var inventoryTab = AddInventoryTab(itemType, first);
-
-            if (first)
+            if (ActiveTab.Type == itemType) return;
+            ActiveTab.SetActive(false);
+            foreach (var inventoryTab in _inventoryTabs)
             {
-                ActiveTab = inventoryTab;
-                first = false;
+                if (inventoryTab.Type == itemType)
+                {
+                    ActiveTab = inventoryTab;
+                    ActiveTab.SetActive(true);
+                    return;
+                }
             }
         }
+
+
+
+
+        void CreateInventory()
+        {
+            bool first = true;
+            foreach (ItemType itemType in Enum.GetValues(typeof(ItemType)))
+            {
+                if (!first) AddInventoryTabButtonSeparator();
+                var inventoryTab = AddInventoryTab(itemType, first);
+
+                if (first)
+                {
+                    ActiveTab = inventoryTab;
+                    first = false;
+                }
+            }
+        }
+
+        InventoryTab AddInventoryTab(ItemType type, bool active)
+        {
+            var inventoryTabGO = Instantiate<GameObject>(_inventorySettings.ItemListPrefab, _inventoryContent);
+            var inventoryTab = inventoryTabGO.GetComponent<InventoryTab>();
+            _inventoryTabs.Add(inventoryTab);
+            _sortedItems.TryGetValue(type, out var itemList);
+            inventoryTab.Init(type, itemList, _inventoryMenu, out var inventoryTabButton);
+            inventoryTabButton.OnInventoryTabButtonClicked += ChangeActiveTab;
+            inventoryTab.SetActive(active);
+            return inventoryTab;
+
+
+        }
+
+
+        void AddInventoryTabButtonSeparator()
+        {
+            Instantiate<GameObject>(_inventorySettings.MenuIconSeparator, _inventoryMenu.transform);
+        }
+
+        public void ChangeActiveTab(ItemType type)
+        {
+            SetActiveTab(type);
+            _spaceshipPanel.SetSpaceshipSlotsState();
+        }
+
     }
-
-    InventoryTab AddInventoryTab(ItemType type, bool active)
-    {
-        var inventoryTabGO = Instantiate<GameObject>(_inventorySettings.ItemListPrefab, _inventoryContent);
-        var inventoryTab = inventoryTabGO.GetComponent<InventoryTab>();
-        _inventoryTabs.Add(inventoryTab);
-        _sortedItems.TryGetValue(type, out var itemList);
-        inventoryTab.Init(type, itemList, _inventoryMenu, out var inventoryTabButton);
-        inventoryTabButton.OnInventoryTabButtonClicked += ChangeActiveTab;
-        inventoryTab.SetActive(active);
-        return inventoryTab;
-
-
-    }
-
-
-    void AddInventoryTabButtonSeparator()
-    {
-        Instantiate<GameObject>(_inventorySettings.MenuIconSeparator, _inventoryMenu.transform);
-    }
-
-    public void ChangeActiveTab(ItemType type)
-    {
-        SetActiveTab(type);
-        _spaceshipPanel.SetSpaceshipSlotsState();
-    }
-
 }

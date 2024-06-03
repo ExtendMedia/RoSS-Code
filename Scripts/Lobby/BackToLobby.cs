@@ -4,18 +4,21 @@ using UnityEngine.UI;
 /// <summary>
 /// Back to main lobby scene
 /// </summary>
-public class BackToLobby : MonoBehaviour
+namespace RoSS
 {
-    void Start()
+    public class BackToLobby : MonoBehaviour
     {
-        Button button = GetComponent<Button>();
-        button.onClick.AddListener(() => GameManager.Instance.ChangeState(GameState.Lobby));
-        HideInLobby(button);
-    }
+        void Start()
+        {
+            Button button = GetComponent<Button>();
+            button.onClick.AddListener(() => GameManager.Instance.ChangeState(GameState.Lobby));
+            HideInLobby(button);
+        }
 
-    void HideInLobby(Button button)
-    {
-        if (GameManager.Instance.GameState == GameState.Lobby) button.gameObject.SetActive(false);
-        else button.gameObject.SetActive(true);
+        void HideInLobby(Button button)
+        {
+            if (GameManager.Instance.GameState == GameState.Lobby) button.gameObject.SetActive(false);
+            else button.gameObject.SetActive(true);
+        }
     }
 }

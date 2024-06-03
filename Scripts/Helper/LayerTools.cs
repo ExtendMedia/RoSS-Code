@@ -3,18 +3,21 @@ using UnityEngine;
 /// <summary>
 /// Helper methods for layers
 /// </summary>
-public class LayerTools : MonoBehaviour
+namespace RoSS
 {
-
-    public static void SetLayerRecursively(GameObject obj, int layer)
+    public class LayerTools : MonoBehaviour
     {
-        obj.layer = layer;
 
-        foreach (Transform child in obj.transform)
+        public static void SetLayerRecursively(GameObject obj, int layer)
         {
-            SetLayerRecursively(child.gameObject, layer);
+            obj.layer = layer;
+
+            foreach (Transform child in obj.transform)
+            {
+                SetLayerRecursively(child.gameObject, layer);
+            }
         }
     }
+
+
 }
-
-

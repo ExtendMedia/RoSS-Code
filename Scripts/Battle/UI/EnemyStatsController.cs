@@ -1,17 +1,20 @@
 ﻿/// <summary>
 /// Controls enemy's statistics
 /// </summary>
-public class EnemyStatsController : StatsController
+namespace RoSS
 {
-    protected override void Awake()
+    public class EnemyStatsController : StatsController
     {
-        MaxHealth = BattleManager.Instance.GetEnemySpaceship().SpaceshipSO.Health;
-    }
+        protected override void Awake()
+        {
+            MaxHealth = BattleManager.Instance.GetEnemySpaceship().SpaceshipSO.Health;
+        }
 
-    protected override void Die()
-    {
-        BattleManager.Instance.GetEnemySpaceship().ActivateFullDestruction();
-        base.Die();
-    }
+        protected override void Die()
+        {
+            BattleManager.Instance.GetEnemySpaceship().ActivateFullDestruction();
+            base.Die();
+        }
 
+    }
 }

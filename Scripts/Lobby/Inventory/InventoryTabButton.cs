@@ -6,35 +6,38 @@ using UnityEngine.UI;
 /// <summary>
 /// Controls the button for the inventory tab 
 /// </summary>
-public class InventoryTabButton : MonoBehaviour, IPointerDownHandler
+namespace RoSS
 {
-    [SerializeField] GameObject _iconFocusGO;
-    [SerializeField] GameObject _iconUnderlineGO;
-    ItemType _type;
-
-    public event Action<ItemType> OnInventoryTabButtonClicked;
-
-    public void OnPointerDown(PointerEventData eventData) => OnInventoryTabButtonClicked?.Invoke(_type);
-
-    public void SetActive(bool active)
+    public class InventoryTabButton : MonoBehaviour, IPointerDownHandler
     {
+        [SerializeField] GameObject _iconFocusGO;
+        [SerializeField] GameObject _iconUnderlineGO;
+        ItemType _type;
 
-        _iconFocusGO.SetActive(active);
-        _iconUnderlineGO.SetActive(active);
-    }
+        public event Action<ItemType> OnInventoryTabButtonClicked;
 
-    void SetImage(Sprite image, Sprite imageFocus)
-    {
-        gameObject.GetComponent<Image>().sprite = image;
-        _iconFocusGO.GetComponent<Image>().sprite = imageFocus;
-    }
+        public void OnPointerDown(PointerEventData eventData) => OnInventoryTabButtonClicked?.Invoke(_type);
 
-    public void Init(ItemType type)
-    {
-        _type = type;
-        if (InventorySystem.Instance.InventorySettings.ItemTypesSettings.TryGetValue(type, out var itemTypeSettings))
+        public void SetActive(bool active)
         {
-            SetImage(itemTypeSettings.MenuIcon, itemTypeSettings.MenuIconFocus);
+
+            _iconFocusGO.SetActive(active);
+            _iconUnderlineGO.SetActive(active);
+        }
+
+        void SetImage(Sprite image, Sprite imageFocus)
+        {
+            gameObject.GetComponent<Image>().sprite = image;
+            _iconFocusGO.GetComponent<Image>().sprite = imageFocus;
+        }
+
+        public void Init(ItemType type)
+        {
+            _type = type;
+            if (InventorySystem.Instance.InventorySettings.ItemTypesSettings.TryGetValue(type, out var itemTypeSettings))
+            {
+                SetImage(itemTypeSettings.MenuIcon, itemTypeSettings.MenuIconFocus);
+            }
         }
     }
 }
